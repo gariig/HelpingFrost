@@ -29,6 +29,15 @@ public class SupplierItemEntities
         get { return new List<SupplierTradingName>(); }
     }
 }
+
+public class SupplierTradingNameViewModel
+{
+    public string Name { get; set; }
+    public int Tax { get; set; }
+    public string Trade { get; set; }
+
+}
+
 public partial class NameModel
 {
     private SupplierItemEntities db = new SupplierItemEntities();
@@ -76,34 +85,37 @@ public partial class NameModel
     }
     */
 
-    public IEnumerable<Supplier> MethodThree()
+    //Changed this to SupplierTradingNameViewModel because it's not a core part of your business model but
+    //a web page needs parts of a Supplier and SupplierTradingName. So we create a new class to handle this.
+    //Don't put this in with your Models but create a new folder called ViewModel and stuff these in there
+    public IEnumerable<SupplierTradingNameViewModel> MethodThree()
     {
         var query = from s in db.Suppliers
                     from t in db.SupplierTradingNames
                     where s.TaxpayerID == t.TaxpayerID
-                    select new
+                    select new SupplierTradingNameViewModel
                     {
-                        Name = s.TaxpayerID,
-                        tax = s.TaxpayerID,
-                        trade = t.SupplierTradingName1
+                        Name = s.TaxpayerID.ToString(),
+                        Tax = s.TaxpayerID,
+                        Trade = t.SupplierTradingName1
                     };
         return query.ToArray();
     }
 
-    public List<Supplier> MethodFour()
+    public List<SupplierTradingNameViewModel> MethodFour()
     {
         var query = from s in db.Suppliers
                     join t in db.SupplierTradingNames
                     on s.TaxpayerID equals t.TaxpayerID
                     into g
                     from grp2 in g.DefaultIfEmpty()
-                    select new
+                    select new SupplierTradingNameViewModel
                     {
                         Tax = s.TaxpayerID,
                         Name = s.SupplierName,
                         Trade = grp2 != null ? grp2.SupplierTradingName1 : null
                     };
-        return query.ToArray();
+        return query.ToList();
     }
     public IEnumerable<Supplier> MethodFive()
     {
