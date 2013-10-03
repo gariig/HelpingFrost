@@ -117,7 +117,7 @@ public partial class NameModel
                     };
         return query.ToList();
     }
-    public IEnumerable<Supplier> MethodFive()
+    public void MethodFive()
     {
         var query = db.Suppliers.ToLookup(s => s.SupplierTradingNames);
         foreach (var lookup in query)
@@ -132,20 +132,31 @@ public partial class NameModel
 
 
 
-    public List<Supplier> MethodSix()
+    public void MethodSix()
     {
+        //Use the query syntax for a LINQ join http://www.dotnetperls.com/join
+        /*
         var query = db.Suppliers.Join(db.SupplierTradingNames, s => s.TaxpayerID,
-            t => t.SupplierTradingName1,
-            (one, two) => new
-            {
-                Tax = one.TaxpayerID,
-                EntiyName = one.SupplierName,
-                TradingNames = two
-            });
+        t => t.SupplierTradingName1,
+        (one, two) => new
+        {
+            Tax = one.TaxpayerID,
+            EntiyName = one.SupplierName,
+            TradingNames = two
+        });
+        */
+        var query = from s in db.Suppliers
+                    join t in db.SupplierTradingNames on s.TaxpayerID equals t.TaxpayerID
+                    select new
+                    {
+                        Tax = s.TaxpayerID,
+                        EntityName = s.SupplierName,
+                        TradingNames = t.SupplierTradingName1
+                    };
 
         foreach (var group in query)
         {
-            Console.Write("{0}, {1}, {2}", group.Tax, group.EntiyName, group.TradingNames);
+            Console.Write("{0}, {1}, {2}", group.Tax, group.EntityName, group.TradingNames);//mispelled Entity
 
         }
     }
