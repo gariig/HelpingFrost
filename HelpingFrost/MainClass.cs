@@ -35,18 +35,21 @@ public partial class NameModel
 
     //Attempt to make a blank method to return object from sub methods
     // This gets called from the controllers
+    /* 
+     * I don't understand what you are trying to do here but removed because it's MVC stuff
     public static NameModel GetName(HttpContextBase context)
     {
         var tradename = new NameModel();
         return tradename;
     }
-
+    
     //Attempt helper class to allow calls to extension methods
     // This is the method that calls the extension methods and pass them to tradename
     public static NameModel GetName(Controller controller)
     {
         return GetName(controller.HttpContext);
     }
+    */
 
     public List<Supplier> MethodOne()
     {
