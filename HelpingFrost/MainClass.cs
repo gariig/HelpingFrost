@@ -56,8 +56,11 @@ public partial class NameModel
         return db.Suppliers.ToList();
     }
 
+    /* I don't even know what is going on here. A SelectMany is meant to flatten a list
+     * http://www.dotnetperls.com/selectmany
     public IEnumerable<Supplier> MethodTwo()
     {
+        
         var query = db.Suppliers.SelectMany(s => s.SupplierTradingNames, (s, t) => new { s.TaxpayerID, t });
 
         foreach (var group in query)
@@ -69,7 +72,9 @@ public partial class NameModel
                 Console.WriteLine(" {0}", trade);
             }
         }
+         
     }
+    */
 
     public IEnumerable<Supplier> MethodThree()
     {
